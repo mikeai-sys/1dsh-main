@@ -21,7 +21,6 @@ const Dashboard: React.FC = () => {
   const [showAuthModal, setShowAuthModal] = useState(false); // For Supabase login
   const [showAIModal, setShowAIModal] = useState(false);
   const [guestUser, setGuestUser] = useState(UserService.getCurrentUser());
-  const [searchQuery, setSearchQuery] = useState('');
   const location = useLocation();
   const [backgroundUrl, setBackgroundUrl] = useState('');
   const [bgOpacity, setBgOpacity] = useState(1);
@@ -114,8 +113,6 @@ const Dashboard: React.FC = () => {
       <div className="relative z-10 flex flex-1 flex-col">
         <Header
           onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
-          searchQuery={searchQuery}
-          setSearchQuery={setSearchQuery}
           activeTab={activeTab}
           currentUser={effectiveUser}
           onLoginClick={() => setShowAuthModal(true)}
@@ -125,7 +122,7 @@ const Dashboard: React.FC = () => {
           isLoggedIn={isLoggedIn}
         />
         <main ref={mainContentRef} className="flex-1 overflow-y-auto overflow-x-hidden pb-16 lg:pb-0">
-          <Outlet context={{ setBackgroundUrl, searchQuery, openAIModal: () => setShowAIModal(true) }} />
+          <Outlet context={{ setBackgroundUrl, openAIModal: () => setShowAIModal(true) }} />
         </main>
       </div>
       <BottomNavigation onSettingsClick={() => setShowSettings(true)} />

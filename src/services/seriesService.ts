@@ -258,7 +258,7 @@ export class SeriesService {
   static getEpisodeStreamUrl(seriesId: number, seasonNumber: number, episodeNumber: number): string {
     const activeService = localStorage.getItem('deltasilicon_active_service') || 'vidsrc';
     const baseUrls: { [key: string]: string } = {
-      vidsrc: 'https://vidsrc.in',
+      vidsrc: 'https://vidsrc-embed.ru',
       vidfast: 'https://vidfast.net',
       vidlink: 'https://vidlink.pro',
       videasy: 'https://videasy.io'

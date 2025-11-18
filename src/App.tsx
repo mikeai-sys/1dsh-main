@@ -14,6 +14,7 @@ import OfficialUpdatesPage from './pages/OfficialUpdatesPage';
 import SupportPage from './pages/SupportPage';
 import AboutPage from './pages/AboutPage';
 import CountryMoviesPage from './pages/CountryMoviesPage';
+import SearchPage from './pages/SearchPage';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { AuthProvider } from './contexts/AuthContext';
 
@@ -32,6 +33,7 @@ function App() {
               <Route path="favorites" element={<FavoritesPage />} />
               <Route path="country" element={<CountryMoviesPage />} />
             </Route>
+            <Route path="/search" element={<SearchPage />} />
             <Route path="/movie/watch/:movieId" element={<WatchMovie />} />
             <Route path="/series/watch/:seriesId/:season/:episode" element={<WatchSeries />} />
             <Route path="/movie/:id/:title" element={<ContentInfoPage contentType="movie" />} />

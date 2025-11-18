@@ -11,7 +11,7 @@ export class StreamingServiceManager {
     {
       id: 'vidsrc',
       name: 'VidSrc',
-      baseUrl: 'https://vidsrc.in',
+      baseUrl: 'https://vidsrc-embed.ru',
       embedPattern: '/embed/movie/{id}',
       isActive: true
     },

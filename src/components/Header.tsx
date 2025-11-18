@@ -1,24 +1,21 @@
-import React from 'react';
-import { Search, Menu, User, LogOut, Smile } from 'lucide-react'; // Import Smile icon
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { Search, Menu, User, LogOut, Smile } from 'lucide-react';
 import { useTranslation } from '../contexts/LanguageContext';
 
 interface HeaderProps {
   onToggleSidebar: () => void;
-  searchQuery: string;
-  setSearchQuery: (query: string) => void;
   activeTab: string;
   currentUser: any;
   onLoginClick: () => void;
   onLogout: () => void;
-  currentAccountType: 'adult' | 'kids'; // New prop
-  onToggleAccountType: () => void; // New prop
-  isLoggedIn: boolean; // New prop
+  currentAccountType: 'adult' | 'kids';
+  onToggleAccountType: () => void;
+  isLoggedIn: boolean;
 }
 
 const Header: React.FC<HeaderProps> = ({
   onToggleSidebar,
-  searchQuery,
-  setSearchQuery,
   activeTab,
   currentUser,
   onLoginClick,
@@ -28,11 +25,20 @@ const Header: React.FC<HeaderProps> = ({
   isLoggedIn,
 }) => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const getPlaceholder = () => {
     if (activeTab === 'series') return t('search_series');
     if (activeTab === 'anime') return t('search_anime');
     return t('search_movies');
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
+    }
   };
 
   return (
@@ -44,7 +50,7 @@ const Header: React.FC<HeaderProps> = ({
         <Menu className="h-6 w-6" />
       </button>
 
-      <div className="relative flex-1">
+      <form onSubmit={handleSearchSubmit} className="relative flex-1">
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
         <input
           type="text"
@@ -53,7 +59,7 @@ const Header: React.FC<HeaderProps> = ({
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full rounded-lg border border-gray-700 bg-gray-900/50 py-2 pl-9 pr-4 text-sm text-white placeholder-gray-400 focus:border-yellow-400/50 focus:outline-none"
         />
-      </div>
+      </form>
 
       <div className="flex items-center gap-2 sm:gap-4">
         {isLoggedIn && (
