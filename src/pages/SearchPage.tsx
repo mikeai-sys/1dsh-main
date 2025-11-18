@@ -6,6 +6,7 @@ import { AnimeService } from '../services/animeService';
 import ContentGrid, { ContentItem } from '../components/ContentGrid';
 import { slugify } from '../utils/slugify';
 import { ArrowLeft, Search, Film, Tv, Sparkles } from 'lucide-react';
+import AIRecommenderModal from '../components/AIRecommenderModal';
 
 type SearchCategory = 'movie' | 'series' | 'anime';
 
@@ -24,6 +25,7 @@ const SearchPage = () => {
   const [selectedGenre, setSelectedGenre] = useState<number | null>(null);
   const [suggestions, setSuggestions] = useState<ContentItem[]>([]);
   const searchRef = useRef<HTMLDivElement>(null);
+  const [showAIModal, setShowAIModal] = useState(false);
 
   // Debounce function
   const debounce = <F extends (...args: any[]) => any>(func: F, waitFor: number) => {
@@ -268,13 +270,23 @@ const SearchPage = () => {
             )}
           </>
         ) : (
-          <div className="text-center py-16">
-            <Search className="w-16 h-16 mx-auto mb-4 text-gray-600" />
-            <h2 className="text-2xl font-bold text-white">No results found.</h2>
-            <p className="text-gray-400 mt-2">Try a different search term or browse by genre.</p>
-          </div>
+          !loading && (
+            <div className="text-center py-16">
+              <Search className="w-16 h-16 mx-auto mb-4 text-gray-600" />
+              <h2 className="text-2xl font-bold text-white">No results found.</h2>
+              <p className="text-gray-400 mt-2 mb-6">Try a different search term, or let our AI assistant help you find something to watch!</p>
+              <button
+                onClick={() => setShowAIModal(true)}
+                className="flex items-center gap-2 mx-auto px-6 py-3 bg-yellow-400 text-black font-semibold rounded-lg hover:bg-yellow-300 transition-all duration-300"
+              >
+                <Sparkles className="w-5 h-5" />
+                Ask AI Assistant
+              </button>
+            </div>
+          )
         )}
       </div>
+      <AIRecommenderModal isOpen={showAIModal} onClose={() => setShowAIModal(false)} />
     </div>
   );
 };
