@@ -10,6 +10,19 @@ import AIRecommenderModal from '../components/AIRecommenderModal';
 
 type SearchCategory = 'movie' | 'series' | 'anime';
 
+// Add a type for the search results to avoid implicit any
+interface SearchResultItem {
+  id: number;
+  title?: string;
+  name?: string;
+  [key: string]: any; // Allow other properties
+}
+
+interface ApiResponse {
+  results: ContentItem[];
+  total_pages: number;
+}
+
 const SearchPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
@@ -50,8 +63,8 @@ const SearchPage = () => {
         SeriesService.searchSeries(searchQuery, 1)
       ]);
       const combined = [
-        ...movieRes.results.map(r => ({ ...r, type: 'movie' as const })),
-        ...seriesRes.results.map(r => ({ ...r, type: 'series' as const }))
+        ...movieRes.results.map((r: SearchResultItem) => ({ ...r, type: 'movie' as const })),
+        ...seriesRes.results.map((r: SearchResultItem) => ({ ...r, type: 'series' as const }))
       ];
       setSuggestions(combined.slice(0, 8));
     } catch (error) {
@@ -93,24 +106,27 @@ const SearchPage = () => {
     const fetchResults = async () => {
       setLoading(true);
       try {
-        let response;
+        let response: ApiResponse;
         if (query) {
           switch (activeTab) {
             case 'movie': response = await tmdbApi.searchMovies(query, page); break;
             case 'series': response = await SeriesService.searchSeries(query, page); break;
             case 'anime': response = await AnimeService.searchAnime(query, page); break;
+            default: throw new Error('Invalid search category');
           }
         } else if (selectedGenre) {
           switch (activeTab) {
             case 'movie': response = await tmdbApi.getMoviesByGenre(selectedGenre, page); break;
             case 'series': response = await SeriesService.getSeriesByGenre(selectedGenre, page); break;
             case 'anime': response = await AnimeService.getAnimeByGenre(selectedGenre, page); break;
+            default: throw new Error('Invalid search category');
           }
         } else {
           switch (activeTab) {
             case 'movie': response = await tmdbApi.getPopular(page); break;
             case 'series': response = await SeriesService.getPopularSeries(page); break;
             case 'anime': response = await AnimeService.getPopularAnime(); break;
+            default: throw new Error('Invalid search category');
           }
         }
         setResults(prev => page === 1 ? response.results : [...prev, ...response.results]);
