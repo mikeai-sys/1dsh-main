@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { X, Sparkles, Send } from 'lucide-react';
 import { supabase } from '../lib/supabase';
-import ContentGrid, { ContentItem } from '../components/ContentGrid'; // Corrected import path
-import { Movie } from '../services/tmdbApi';
+import ContentGrid, { ContentItem } from '../components/ContentGrid';
 import { useNavigate } from 'react-router-dom';
 import { slugify } from '../utils/slugify';
 
@@ -13,7 +12,7 @@ interface AIRecommenderModalProps {
 
 const AIRecommenderModal: React.FC<AIRecommenderModalProps> = ({ isOpen, onClose }) => {
   const [query, setQuery] = useState('');
-  const [recommendations, setRecommendations] = useState<Movie[]>([]);
+  const [recommendations, setRecommendations] = useState<ContentItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -42,8 +41,8 @@ const AIRecommenderModal: React.FC<AIRecommenderModalProps> = ({ isOpen, onClose
 
   const handleItemClick = (item: ContentItem) => {
     onClose();
-    // Assuming 'item' will have 'title' or 'name' for slugify
-    navigate(`/movie/${item.id}/${slugify(item.title || item.name || '')}`);
+    const type = item.type === 'series' ? 'series' : 'movie';
+    navigate(`/${type}/${item.id}/${slugify(item.title || item.name || '')}`);
   };
 
   if (!isOpen) return null;
