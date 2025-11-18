@@ -1,0 +1,243 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* Light theme styles */
+.light-theme {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-tertiary: #e2e8f0;
+  --text-primary: #1a202c;
+  --text-secondary: #4a5568;
+  --text-tertiary: #718096;
+  --border-color: #e2e8f0;
+  --accent-color: #f59e0b;
+}
+
+.light-theme body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  background-size:100% 100vh;
+}
+
+.light-theme .bg-black {
+  background-color: var(--bg-primary) !important;
+}
+
+.light-theme .bg-gray-900 {
+  background-color: var(--bg-secondary) !important;
+}
+
+.light-theme .bg-gray-800 {
+  background-color: var(--bg-tertiary) !important;
+}
+
+.light-theme .text-white {
+  color: var(--text-primary) !important;
+}
+
+.light-theme .text-gray-300 {
+  color: var(--text-secondary) !important;
+}
+
+.light-theme .text-gray-400 {
+  color: var(--text-tertiary) !important;
+}
+
+.light-theme .border-gray-700 {
+  border-color: var(--border-color) !important;
+}
+
+.light-theme .border-gray-800 {
+  border-color: var(--border-color) !important;
+}
+
+/* Feature card hover effect */
+.feature-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04), 0 0 30px rgba(251, 191, 36, 0.1);
+}
+
+/* Movie card hover effect */
+.movie-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 30px rgba(251, 191, 36, 0.2);
+}
+
+/* Line clamp utilities */
+.line-clamp-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Hide scrollbar for horizontal scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1f2937;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #374151;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
+}
+
+/* Background animation for particles */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-20px) rotate(180deg); }
+}
+
+/* Fade in animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.movie-card {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Responsive font sizes */
+@media (max-width: 640px) {
+  .hero-title {
+    font-size: 2.5rem;
+    line-height: 1.1;
+  }
+}
+
+/* Extra small breakpoint for very small devices */
+@media (max-width: 480px) {
+  .xs\:block {
+    display: block;
+  }
+  
+  .xs\:hidden {
+    display: none;
+  }
+}
+
+/* Focus states for accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid #fbbf24;
+  outline-offset: 2px;
+}
+
+/* Backdrop blur fallback */
+@supports not (backdrop-filter: blur(12px)) {
+  .backdrop-blur-sm {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
+}
+
+/* Loading animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Hover effects for interactive elements */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+/* Custom button styles */
+.btn-primary {
+  @apply px-6 py-3 bg-yellow-400 text-black font-semibold rounded-lg hover:bg-yellow-300 transition-all duration-300;
+  box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 40px rgba(251, 191, 36, 0.6);
+}
+
+.btn-secondary {
+  @apply px-6 py-3 border border-yellow-400/50 text-yellow-400 font-semibold rounded-lg hover:bg-yellow-400/10 transition-all duration-300;
+}
+
+.btn-secondary:hover {
+  box-shadow: 0 0 30px rgba(251, 191, 36, 0.3);
+}
+
+/* Mobile optimizations */
+@media (max-width: 768px) {
+  .mobile-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .mobile-text {
+    font-size: 0.75rem;
+  }
+  
+  .mobile-padding {
+    padding: 0.5rem;
+  }
+}
+
+/* Very small device optimizations */
+@media (max-width: 480px) {
+  .xs-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .xs-text {
+    font-size: 0.625rem;
+  }
+  
+  .xs-padding {
+    padding: 0.25rem;
+  }
+}
