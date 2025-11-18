@@ -20,27 +20,33 @@ export const locationService = {
           }
         } catch (e) {
           console.error('Invalid DEV_LOCATION_OVERRIDE in localStorage:', e);
-          // Fall through to ipapi.co if override is invalid
+          // Fall through to ip-api.com if override is invalid
         }
       }
     }
 
     try {
-      const response = await fetch('https://ipapi.co/json/');
+      // Switched to a CORS-friendly location API
+      const response = await fetch('http://ip-api.com/json/');
       if (!response.ok) {
-        console.warn('Failed to fetch location from ipapi.co:', response.statusText);
+        console.warn('Failed to fetch location from ip-api.com:', response.statusText);
         return null; // Return null on non-OK response
       }
       const data = await response.json();
-      return {
-        country_name: data.country_name,
-        country_code: data.country_code,
-      };
+      if (data.status === 'success') {
+        return {
+          country_name: data.country,
+          country_code: data.countryCode,
+        };
+      } else {
+        console.warn('Location API returned an error:', data.message);
+        return null;
+      }
     } catch (error) {
       console.error('Error fetching location:', error);
       // Specifically log a message about CORS for local development
       if (error instanceof TypeError && error.message === 'Failed to fetch') {
-        console.warn('CORS issue detected with ipapi.co. This often happens during local development. Location-based features might be limited. Consider deploying or using a proxy.');
+        console.warn('Fetch error for location API. This can be due to network issues or ad-blockers. Location-based features might be limited.');
       }
       return null; // Return null on any fetch error
     }
