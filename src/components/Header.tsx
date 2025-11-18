@@ -1,11 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, Menu, User, LogOut, Smile } from 'lucide-react';
 import { useTranslation } from '../contexts/LanguageContext';
 
 interface HeaderProps {
   onToggleSidebar: () => void;
-  activeTab: string;
   currentUser: any;
   onLoginClick: () => void;
   onLogout: () => void;
@@ -16,7 +15,6 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({
   onToggleSidebar,
-  activeTab,
   currentUser,
   onLoginClick,
   onLogout,
@@ -26,20 +24,6 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const getPlaceholder = () => {
-    if (activeTab === 'series') return t('search_series');
-    if (activeTab === 'anime') return t('search_anime');
-    return t('search_movies');
-  };
-
-  const handleSearchSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/search?q=${encodeURIComponent(searchQuery)}`);
-    }
-  };
 
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b border-gray-800 bg-black/80 px-4 backdrop-blur-sm sm:h-16 sm:px-6">
@@ -50,18 +34,17 @@ const Header: React.FC<HeaderProps> = ({
         <Menu className="h-6 w-6" />
       </button>
 
-      <form onSubmit={handleSearchSubmit} className="relative flex-1">
-        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
-        <input
-          type="text"
-          placeholder={getPlaceholder()}
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full rounded-lg border border-gray-700 bg-gray-900/50 py-2 pl-9 pr-4 text-sm text-white placeholder-gray-400 focus:border-yellow-400/50 focus:outline-none"
-        />
-      </form>
+      <div className="flex-1" />
 
       <div className="flex items-center gap-2 sm:gap-4">
+        <button
+          onClick={() => navigate('/search')}
+          className="p-2 text-gray-400 hover:text-white"
+          title="Search"
+        >
+          <Search className="h-5 w-5" />
+        </button>
+
         {isLoggedIn && (
           <button
             onClick={onToggleAccountType}

@@ -30,8 +30,6 @@ const Dashboard: React.FC = () => {
 
   const { user: supabaseUser, profile, signOut, refetchProfile } = useAuth();
 
-  const activeTab = location.pathname.split('/')[2] || 'movies';
-
   useEffect(() => {
     setIsSidebarOpen(false);
   }, [location.pathname]);
@@ -113,7 +111,6 @@ const Dashboard: React.FC = () => {
       <div className="relative z-10 flex flex-1 flex-col">
         <Header
           onToggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
-          activeTab={activeTab}
           currentUser={effectiveUser}
           onLoginClick={() => setShowAuthModal(true)}
           onLogout={handleLogout}
